@@ -15,13 +15,7 @@ class UniLinkService extends RhdCore.RhdSettingsService{
 
 
   UniLinkService({this.appUrlKey, this.elaborateUniLink}) : super('UniLinkService','rhd_service_unilink');
-
-  @override
-  Future<void> onBeforeServiceInit({RhdCore.Settings? set}) async {
-
-  }
-
-
+  
   @override
   Future<void> init({RhdCore.Settings? set}) async{
     if(set==null) return;
@@ -67,7 +61,7 @@ class UniLinkService extends RhdCore.RhdSettingsService{
 
 
   @override
-  Future<void> onAfterServiceInit({RhdCore.Settings? set}) async{
+  Future<void> onAfterServiceInit({RhdCore.Settings? set,RhdCore.RhdSettingsService? service}) async{
 
 
   }
