@@ -274,11 +274,11 @@ class UniLinkService extends RhdCore.RhdSettingsService{
               );
             }
           }
-          RhdUtil.Utils.showFlushbar(
-            context: RhdUtil.Utils.homeAppKey.currentContext!,
-            title: xtitle,
+          RhdUtil.Utils.showNotifyBar(
+            RhdUtil.Utils.homeAppKey.currentContext!,
             message: xbody,
-            onPressed: () async {
+            buttonText: RhdUtil.RHDLocalizations.of(RhdUtil.Utils.homeAppKey.currentContext!, 'pushnot_open'),
+            buttonAction: () async {
 
               String? tok = await _set.getBarcodeToken(barcodeCl, _titem, disableCertificate: false); //this.disableCertificate
 
@@ -359,12 +359,7 @@ class UniLinkService extends RhdCore.RhdSettingsService{
               ) as FutureOr<bool>);
 
             },
-            mainButtonText: Text(
-              RhdUtil.RHDLocalizations.of(RhdUtil.Utils.homeAppKey.currentContext!, 'pushnot_open'),
-              //  style: TextStyle(color: cp),
-            ),
-            icon: icc,
-            leftBarIndicatorColor: cp,
+            isError: true,
           );
         }
 
@@ -405,17 +400,13 @@ class UniLinkService extends RhdCore.RhdSettingsService{
         }
       }
       //Color cp = itm.pcolor;
-      RhdUtil.Utils.showFlushbar(
-        context: RhdUtil.Utils.homeAppKey.currentContext!,
-        title: xtitle,
+      RhdUtil.Utils.showNotifyBar(
+        RhdUtil.Utils.homeAppKey.currentContext!,
         message: xbody,
-        mainButton: TextButton(
-          child: Text(
-            RhdUtil.RHDLocalizations.of(
-                RhdUtil.Utils.homeAppKey.currentContext!, 'pushnot_open'),
-            style: TextStyle(color: cp),
-          ),
-          onPressed: () async {
+        buttonText: RhdUtil.RHDLocalizations.of(
+          RhdUtil.Utils.homeAppKey.currentContext!, 'pushnot_open',
+        ),
+        buttonAction: () async {
             // await this._cleanup();
             // Navigator.of(context).pop(true);
             Timer(const Duration(milliseconds: 50), () {
@@ -432,9 +423,7 @@ class UniLinkService extends RhdCore.RhdSettingsService{
                   force: true);
             });
           },
-        ),
-        icon: icc,
-        leftBarIndicatorColor: cp,
+        isError: true,
       );
     }
   }
