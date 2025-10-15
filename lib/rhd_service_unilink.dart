@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rhd_core/rhd_core.dart' as RhdCore;
 import 'package:rhd_core/rhd_util.dart' as RhdUtil;
-import 'package:uni_links/uni_links.dart';
+import 'package:app_links/app_links.dart';
+//import 'package:uni_links/uni_links.dart';
 
 class UniLinkService extends RhdCore.RhdSettingsService {
   final String? appUrlKey;
-  StreamSubscription? _sub_uni_links;
+  //late AppLinks _appLinks;
+  StreamSubscription<Uri>? _sub_uni_links;
   final Function(Uri? uri, RhdCore.Settings _set)? elaborateUniLink;
 
   UniLinkService({this.appUrlKey, this.elaborateUniLink})
@@ -22,14 +24,14 @@ class UniLinkService extends RhdCore.RhdSettingsService {
     if (set == null) return;
     //AppLink.AppUrlKey = this.rhdSettings!.uniLinksUrlKey;
 
-    // ... check initialLink
+    //_appLinks = AppLinks();
     try {
-      Uri? initialUri = await getInitialUri();
+      Uri? initialUri = await AppLinks().getInitialLink();
       // Parse the link and warn the user, if it is not correct,
       // but keep in mind it could be `null`.
       if (initialUri != null) {
         set.doLog(
-            'UniLink received on startup (' + initialUri.toString() + ') ',
+            'AppsLink received on startup (' + initialUri.toString() + ') ',
             type: RhdCore.AlertType.info,
             loglevel: RhdCore.LogLevel.info);
         if (elaborateUniLink != null) {
@@ -39,13 +41,12 @@ class UniLinkService extends RhdCore.RhdSettingsService {
         }
       }
     } on PlatformException {
-      // Handle exception by warning the user their action did not succeed
-      // return?
+
     }
     // Attach a listener to the stream
-    _sub_uni_links = getUriLinksStream().listen((Uri? uri) {
+    _sub_uni_links = AppLinks().uriLinkStream.listen((Uri? uri) {
       // Use the uri and warn the user, if it is not correct
-      set.doLog('UniLink received (' + uri.toString() + ') ',
+      set.doLog('AppsLink received (' + uri.toString() + ') ',
           type: RhdCore.AlertType.info, loglevel: RhdCore.LogLevel.info);
       if (elaborateUniLink != null) {
         this.elaborateUniLink!(uri, set);
